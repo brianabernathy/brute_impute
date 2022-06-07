@@ -31,7 +31,8 @@ Options:
 
 Description:
 
-    vcf_to_acm.pl converts vcf files to ACM format, also removes non-biallelic and monomorphic variants
+    vcf_to_acm.pl converts vcf files to ACM format, also removes non-biallelic and
+    monomorphic variants
 
 Usage:
 
@@ -53,7 +54,8 @@ Options:
 
 Description:
 
-    tassel_ld_filter.pl filters hapmap files using TASSEL's windowed linkage disequilibrium (LD) calculations
+    tassel_ld_filter.pl filters hapmap files using TASSEL's windowed linkage
+    disequilibrium (LD) calculations
 
 Usage:
 
@@ -113,6 +115,7 @@ Options:
 ### imputed_hapmap_comp.pl
 
 Description:
+
     imputed_hapmap_comp.pl compares genotypes between original and imputed hapmap files
 
 Usage:
@@ -133,7 +136,8 @@ Options:
 
 Description
 
-    hapmap_all_n_vars_count.pl counts the number of variant records with all 'N' alleles. TASSEL may silently write all 'N' records when it encounters issues.
+    hapmap_all_n_vars_count.pl counts the number of variant records with all 'N' alleles.
+    TASSEL may silently write all 'N' records when it encounters issues.
 
 Usage:
 
@@ -151,9 +155,13 @@ Options:
 
 Description:
 
-    add_missing_imputed_records.pl adds original hapmap variants that are missing from the imputed hapmap.
+    add_missing_imputed_records.pl adds original hapmap variants that are missing from
+    the imputed hapmap.
 
-    window_impute.pl removes the first and last few (based on window size) variants from each chomosome. TASSEL will occasionally omit variants for various reasons. add_missing_imputed_records.pl is useful if you want to retain all original hapmap variants in the imputed hapmap.
+    window_impute.pl removes the first and last few (based on window size) variants from 
+    each chomosome. TASSEL will occasionally omit variants for various reasons.
+    add_missing_imputed_records.pl is useful if you want to retain all original hapmap
+    variants in the imputed hapmap.
 
 Usage:
 
@@ -179,7 +187,8 @@ Options:
 
 Description: 
 
-    downsample_hapmap.pl generates a downsampled hapmap using the specified minimum distance between variants
+    downsample_hapmap.pl generates a downsampled hapmap using the specified minimum
+    distance between variants
 
 Usage:
 
