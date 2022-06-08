@@ -1,5 +1,53 @@
 # brute_impute
+
 basic imputation for skim seq genotying
+
+---
+
+## pipeline usage overview
+
+The following assumes a biparental mapping population VCF file is available. TASSEL [(https://tassel.bitbucket.io/)](https://tassel.bitbucket.io/ "TASSEL") is required as it is used for basic sorting, format conversion and MAF filtering operations. Population 'taxas' and pedigrees' files are required for TASSEL commands, see TASSEL documentation for details.
+
+  sort vcf
+- `${TASSEL_DIR}/run_pipeline.pl -SortGenotypeFilePlugin -inputFile pop.vcf -outputFile pop.sort.vcf -fileType VCF`
+
+  convert vcf to hapmap
+- `${TASSEL_DIR}/run_pipeline.pl -vcf pop.sort.vcf -export pop.sort.hmp.txt -exportType Hapmap`
+
+  filter hyper-variable regions
+- `${BRUTE_IMPUTE_DIR}/hyper_variable_region_filter.pl --hmp pop.sort.hmp.txt > pop.sort.hypervar.hmp.txt`
+
+  minor allele frequency (MAF) filter
+  sample parameters shown, adjust as appropriate
+- `${TASSEL_DIR}/run_pipeline.pl -fork1 -h pop.sort.hmp.txt -includeTaxaInFile pop.taxas.txt -filterAlign -filterAlignMinCount 10 -filterAlignMinFreq 0.2 -filterAlignMaxFreq 0.8 -export pop.sort.hypervar.maf.hmp.txt,pop.sort.hypervar.maf.json.gz -exportType Hapmap -runfork1`
+
+  convert hapmap to vcf
+- `${TASSEL_DIR}/run_pipeline.pl -h pop.sort.hypervar.maf.hmp.txt -export pop.sort.hypervar.maf.vcf -exportType VCF`
+
+  convert vcf to acm format
+- `${BRUTE_IMPUTE_DIR}/vcf_to_acm.pl -v pop.sort.hypervar.maf.vcf -a 'parentA' -c 'parentC' > pop.sort.hypervar.maf.acm.vcf`
+
+  convert acm-formatted vcf to hapmap
+- `${TASSEL_DIR}/run_pipeline.pl -vcf pop.sort.hypervar.maf.acm.vcf -export pop.sort.hypervar.maf.acm.hmp.txt -exportType Hapmap`
+
+  filter variants in low linkage disequilibrium (LD)
+- `${BRUTE_IMPUTE_DIR}/tassel_ld_filter.pl --hapmap pop.sort.hypervar.maf.acm.hmp.txt -a 'parentA' -c 'parentC' --tassel $TASSEL_DIR > pop.sort.hypervar.maf.acm.ld.hmp.txt`
+
+  impute (removes first and last few variants from each chromosome)
+- `${BRUTE_IMPUTE_DIR}/window_impute.pl --hmp pop.sort.hypervar.maf.acm.ld.hmp.txt > pop.window_impute.hmp.txt`
+
+  add missing imputation variants
+- `${BRUTE_IMPUTE_DIR}/add_missing_imputed_records.pl -o pop.sort.hypervar.maf.acm.ld.hmp.txt -i pop.window_impute.hmp.txt > pop.window_impute.mod.hmp.txt`
+
+  compare pre and post-imputation hapmaps
+- `${BRUTE_IMPUTE_DIR}/imputed_hapmap_comp.pl -o pop.tassel.sort.hypervar.maf.acm.ld.hmp.txt -i pop.window_impute.mod.hmp.txt 1> pop.window_impute.mod.mismatch.stats 2> pop.window_impute.mod.mismatch.genos`
+
+  count variants with Ns for all population genotypes
+- `${BRUTE_IMPUTE_DIR}/hapmap_all_n_vars_count.pl --hmp pop.window_impute.mod.hmp.txt > pop.window_impute.mod.hmp.all.n.var.count`
+
+
+More complete documentation for each tool is available below. Tools can also be ran without options or -h/--help to display the help menu.
+
 
 ---
 
