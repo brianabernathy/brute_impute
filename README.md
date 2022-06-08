@@ -6,7 +6,7 @@ basic imputation for skim seq genotying
 
 ## pipeline usage overview
 
-The following assumes a biparental mapping population VCF file is available. TASSEL [(https://tassel.bitbucket.io/)](https://tassel.bitbucket.io/ "TASSEL") is required as it is used for basic sorting, format conversion and MAF filtering operations. Population 'taxas' and pedigrees' files are required for TASSEL commands, see TASSEL documentation for details.
+The following assumes a biparental mapping population VCF file is available. TASSEL [(https://tassel.bitbucket.io/)](https://tassel.bitbucket.io/ "TASSEL") is required as it is used for basic sorting, format conversion and MAF filtering operations. A population 'taxas' is required for TASSEL MAF filtering, see TASSEL documentation for details.
 
   sort vcf
 - `${TASSEL_DIR}/run_pipeline.pl -SortGenotypeFilePlugin -inputFile pop.vcf -outputFile pop.sort.vcf -fileType VCF`
