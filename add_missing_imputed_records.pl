@@ -102,15 +102,15 @@ sub parse_hapmap {
 
 				if ($pass_dist_check == 1) {
 					$mod_val = $imp_recs{$chr}{$nearest_imp_pos}[$index];
-				}
 
-				if ($invert_parents == 1) {
-					if ($mod_val eq 'A') {
-						$mod_val = 'C';
-					}
+					if ($invert_parents == 1) {
+						if ($mod_val eq 'A') {
+							$mod_val = 'C';
+						}
 
-					elsif ($mod_val eq 'C') {
-						$mod_val = 'A';
+						elsif ($mod_val eq 'C') {
+							$mod_val = 'A';
+						}
 					}
 				}
 
