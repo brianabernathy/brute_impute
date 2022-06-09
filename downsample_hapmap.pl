@@ -137,7 +137,7 @@ Brian Abernathy
  --hmp        hapmap file (required)
 
  -d --dist    minimum distance between variants
-                default: 200
+                default: 300
 
  -h --help    display help menu
 
