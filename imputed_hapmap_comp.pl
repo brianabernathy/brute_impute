@@ -76,6 +76,37 @@ sub parse_hapmap {
 			my $imp_parent_a_allele = $imp_samples[$parent_a_index];
 			my $imp_parent_c_allele = $imp_samples[$parent_c_index];
 
+			my $invert_parents = 0;
+
+			if ($imp_parent_a_allele eq 'C' && ($imp_parent_c_allele eq 'A' || $imp_parent_c_allele eq 'N')) {
+				$invert_parents = 1;
+			}
+
+			elsif ($imp_parent_c_allele eq 'A' && ($imp_parent_a_allele eq 'C' || $imp_parent_a_allele eq 'N')) {
+				$invert_parents = 1;
+			}
+
+
+			if ($invert_parents == 1) {
+				foreach my $index (0..$#imp_samples) {
+					my $imp_allele = $imp_samples[$index];
+
+					if ($imp_allele eq 'A') {
+						$imp_allele = 'C';
+					}
+
+					elsif ($imp_allele eq 'C') {
+						$imp_allele = 'A';
+					}
+
+					$imp_samples[$index] = $imp_allele;
+				}
+
+				$imp_parent_a_allele = $imp_samples[$parent_a_index];
+				$imp_parent_c_allele = $imp_samples[$parent_c_index];
+			}
+
+
 			if ($imp_parent_a_allele eq 'A' && $imp_parent_c_allele eq 'C') {
 				foreach my $sample_index (2..$#samples) {
 					my $orig_sample_allele = $orig_samples[$sample_index];
