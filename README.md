@@ -6,7 +6,7 @@ basic imputation for skim seq genotying
 
 ## pipeline usage overview
 
-The following assumes a biparental mapping population VCF file is available. VCF files may be split into individual chromosomes and processed separately if desired or to reduce the computational resources required for processing.
+The following assumes a biparental mapping population VCF file is available. VCF files may be split into individual chromosomes and processed separately if desired or to reduce the computational resources required for processing, but is not required. See `split_vcf.pl` and `merge_hapmaps.pl` for help splitting VCFs and merging imputed hapmaps.
 
 TASSEL [(https://tassel.bitbucket.io/)](https://tassel.bitbucket.io/ "TASSEL") is required for sorting, format conversion and MAF filtering operations. A population 'taxa' file is required for TASSEL MAF filtering, see TASSEL documentation for details.
 
@@ -38,7 +38,7 @@ TASSEL [(https://tassel.bitbucket.io/)](https://tassel.bitbucket.io/ "TASSEL") i
   impute (removes first and last few variants from each chromosome)
 - `${BRUTE_IMPUTE_DIR}/window_impute.pl --hmp pop.sort.hypervar.maf.acm.ld.hmp.txt > pop.window_impute.hmp.txt`
 
-  add missing imputation variants
+  add missing variants removed by imputation
 - `${BRUTE_IMPUTE_DIR}/add_missing_imputed_records.pl -o pop.sort.hypervar.maf.acm.ld.hmp.txt -i pop.window_impute.hmp.txt > pop.window_impute.mod.hmp.txt`
 
   compare pre and post-imputation hapmaps
@@ -249,7 +249,49 @@ Options:
      --hmp        hapmap file (required)
 
      -d --dist    minimum distance between variants
-                    default: 200
+                    default: 300
 
      -h --help    display help menu
+
+---
+
+### split_vcf.pl
+
+Description:
+
+    split_vcf.pl writes individual vcf files for each chromosome. Output vcf files
+    will be written to 'chromosome.vcf' by default. Text can be pre/postfixed to
+    chromosome names using the --pre/--post options.
+
+Usage:
+
+    split_vcf.pl [options] --vcf variants.vcf
+
+Options:
+
+     -v --vcf     vcf file (required)
+
+     --pre        prefix text added before chromosome in output filename
+
+     --post       postfix text added after chromosome in output filename
+
+     -h --help    display help menu
+
+---
+
+### merge_hapmaps.pl
+
+Description:
+
+merge_hapmaps.pl is a simple tool to combine individual hapmaps into a merged file
+
+Usage:
+
+    merge_hapmaps.pl -p "pop.chr*.hmp.txt"
+
+Options:
+
+     -p --pattern  hapmap file pattern (required)
+
+     -h --help     display help menu
 
