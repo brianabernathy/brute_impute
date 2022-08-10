@@ -6,6 +6,8 @@ basic imputation for skim seq genotying
 
 ## pipeline usage overview
 
+Test data sets, scripts and additional documentation specific to skim-seq processing are also available at the [PanPipes](https://github.com/USDA-ARS-GBRU/PanPipes#demos "PanPipes") repository.
+
 The following assumes a biparental mapping population VCF file is available. VCF files may be split into individual chromosomes and processed separately if desired or to reduce the computational resources required for processing, but is not required. See `split_vcf.pl` and `merge_hapmaps.pl` for help splitting VCFs and merging imputed hapmaps.
 
 TASSEL [(https://tassel.bitbucket.io/)](https://tassel.bitbucket.io/ "TASSEL") is required for sorting, format conversion and MAF filtering operations. A population 'taxa' file is required for TASSEL MAF filtering, see TASSEL documentation for details.
